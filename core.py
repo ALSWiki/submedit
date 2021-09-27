@@ -10,6 +10,7 @@ from models import Article
 
 
 articles = Path(__file__).parent / "articles"
+articles.mkdir(exist_ok=True)
 
 
 def article_name_to_file_name(aname: str) -> str:
