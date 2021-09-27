@@ -8,7 +8,6 @@ from markdown import markdown
 
 from models import Article
 
-
 articles = Path(__file__).parent / "articles"
 articles.mkdir(exist_ok=True)
 
@@ -33,8 +32,9 @@ def get_article(article_num: int) -> Article:
 
 def get_html_article(article_num: int) -> str:
     article = get_article(article_num)
-    html_body = __remove_tag(__center_images(markdown(
-        article.body, extensions=["extra"])), "h1")
+    html_body = __remove_tag(
+        __center_images(markdown(article.body, extensions=["extra"])), "h1"
+    )
     return f"""
     <html>
         <head>

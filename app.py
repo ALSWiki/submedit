@@ -3,17 +3,18 @@ import os
 from functools import partial
 
 from aiohttp import ClientSession
+from auth import is_authenticated
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, StreamingResponse
 
-from auth import is_authenticated
 from core import article_name_to_file_name, get_article, get_html_article, save_article
 from models import Article
 from send import GMAIL
 
-
-assert all(map(os.environ.get, ["SENDER_EMAIL", "SENDER_PASSWORD", "GUAPO_EMAIL"])), "Please specify SENDER_EMAIL, SENDER_PASSWORD, GUAPO_EMAIL env vars"
+assert all(
+    map(os.environ.get, ["SENDER_EMAIL", "SENDER_PASSWORD", "GUAPO_EMAIL"])
+), "Please specify SENDER_EMAIL, SENDER_PASSWORD, GUAPO_EMAIL env vars"
 
 app = FastAPI()
 
@@ -24,6 +25,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.on_event("startup")
 def create_sender() -> None:
@@ -66,6 +68,7 @@ def upload_article(article: Article):
     """
     app.submit_article(subject, body)
     return 200
+
 
 @app.get("/")
 def index():
